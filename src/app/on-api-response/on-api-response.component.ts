@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-on-api-response',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OnApiResponseComponent implements OnInit {
 
-  constructor() { }
+  @Input() fromParent:any;
 
-  ngOnInit(): void {
+  constructor(public activeModal: NgbActiveModal) { }
+
+  ngOnInit() {
+    console.log(this.fromParent);
+    /* Output:
+     {prop1: "Some Data", prop2: "From Parent Component", prop3: "This Can be anything"}
+    */
+  }
+
+  closeModal(sendData:any) {
+    this.activeModal.close(sendData);
   }
 
 }

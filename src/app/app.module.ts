@@ -7,19 +7,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OnApiResponseComponent } from './on-api-response/on-api-response.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
+    OnApiResponseComponent,
+  ],
+  entryComponents:[
     OnApiResponseComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

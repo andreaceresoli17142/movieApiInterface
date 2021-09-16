@@ -1,18 +1,14 @@
-
-
 <form [formGroup]="movieDataGroup" (ngSubmit)="onSubmit()">
   <label for="movieTitle">Title: </label>
-  <input id="movieTitle" type="text" formControlName="movieTitle" >
+  <input id="movieTitle" type="text" formControlName="movieTitle">
   <!-- <div class="alert alert-danger" role="alert" *ngIf="noTitleInsertedFlag == true "> errore</div> -->
   <!-- <div>
-  value:{{movieDataGroup.movieTitle.value}}
-  </div> -->
+    value:{{movieDataGroup.movieTitle.value}}
+    </div> -->
 
   <button [disabled]="this.movieDataGroup.value.movieTitle == ''" type="submit">submit</button>
-  
+
 </form>
-
-
 
 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Launch demo modal
