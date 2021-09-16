@@ -11,14 +11,20 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AppComponent {
   title = 'compitoTps';
 
+  noTitleInsertedFlag = false;
+
   movieDataGroup = new FormGroup({
 
     movieTitle: new FormControl(''),
+    // yearOfRelease: new FormControl(''),
+
 
   });
 
   onSubmit(): void{
-    console.log(this.movieDataGroup.value);
+    // if ( this.movieDataGroup.value.movieTitle == '' )
+    //   this.noTitleInsertedFlag = true;
+    console.log(this.movieDataGroup.value.movieTitle);
   }
   
 
