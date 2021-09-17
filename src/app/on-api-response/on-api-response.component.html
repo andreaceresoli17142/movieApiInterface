@@ -1,14 +1,19 @@
 <div class="modal-header">
-    <h5 class="modal-title">Modal title</h5>
+    <h5 class="modal-title">{{fromParent.title}}</h5>
     <button type="button" class="close" data-dismiss="modal" (click)="closeModal('dismiss')">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    <p>Modal body text goes here.</p>
-    <p>{{ fromParent | json }}</p>
+    <img [src]="'https://image.tmdb.org/t/p/w300/' + fromParent.poster_path">
+    <p>movie title: {{fromParent.title}}</p>
+    <p>language: {{fromParent.original_language}}</p>
+    <p>release date: {{fromParent.release_date}}</p>
+    <p>overview: {{fromParent.overview}}</p>
+    <p>vote average: {{fromParent.vote_average}}</p>    
+    <p>vote count: {{fromParent.vote_count}}</p>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="closeModal('changes saved!')">Save changes</button>
+    <!-- <button type="button" class="btn btn-primary" (click)="closeModal('changes saved!')">Save changes</button> -->
 </div>

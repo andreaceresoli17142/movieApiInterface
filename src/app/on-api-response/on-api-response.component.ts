@@ -9,12 +9,15 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class OnApiResponseComponent implements OnInit {
 
+  //TODO: css
+  //TODO: ottenere piu' informazioni sul film tramite un altra chiamata api
+
   @Input() fromParent:any;
 
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
-    console.log(this.fromParent);
+    // console.log(this.fromParent);
     /* Output:
      {prop1: "Some Data", prop2: "From Parent Component", prop3: "This Can be anything"}
     */
@@ -25,3 +28,4 @@ export class OnApiResponseComponent implements OnInit {
   }
 
 }
+ 
