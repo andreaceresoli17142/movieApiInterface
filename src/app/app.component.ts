@@ -4,9 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OnApiResponseComponent } from './on-api-response/on-api-response.component';
 import { HttpClient } from '@angular/common/http';
 
-// import { format } from 'path';
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
