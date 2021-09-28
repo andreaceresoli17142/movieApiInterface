@@ -1,20 +1,19 @@
-<form [formGroup]="movieDataGroup" (ngSubmit)="onSubmit()">
-  <label for="movieTitle">Title: </label>
-  <input id="movieTitle" type="text" formControlName="movieTitle">
-  <!-- <div class="alert alert-danger" role="alert" *ngIf="noTitleInsertedFlag == true "> errore</div> -->
-  <!-- <div>
-    value:{{movieDataGroup.movieTitle.value}}
-    </div> -->
+<h1 class="display-3 text-center text-success">TMDB API INTERFACE</h1>
 
-  <button [disabled]="this.movieDataGroup.value.movieTitle == ''" type="submit">submit</button>
-
+<form  class="mx-auto pt-4" style="width: 400px;" [formGroup]="movieDataGroup" (ngSubmit)="onSubmit()">  
+  <div class="input-group mb-3">
+    <input type="text" class="form-control form-control-lg" placeholder="search for your movie"  id="movieTitle" formControlName="movieTitle">
+    <button type="submit" class="input-group-text btn-success" [disabled]="this.movieDataGroup.value.movieTitle == ''"><i class="bi bi-search me-2"></i> Search</button>
+    <button class="btn-success bi bi-search me-2" (click)="this.refresh()"  [disabled]="this.movieDataGroup.value.movieTitle == ''" >refresh</button>
+  </div>
 </form>
+
 
 <table class="table">
   <tbody>
     <tr *ngFor="let movieRow of apiResponse">
       <td *ngFor="let singleMovie of movieRow" scope="row"> 
-        <img [src]="'https://image.tmdb.org/t/p/w185' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
+        <img class="rounded-lg mx-auto d-block" [src]="'https://image.tmdb.org/t/p/w185' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
       </td>
     </tr>
   </tbody>
@@ -22,6 +21,8 @@
 
 <div *ngIf="apiResponse !== undefined && apiResponse.length == 0"> no movies found </div>
 
-<ngb-pagination (pageChange)="onPageChange( $event )" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+<div class="d-flex justify-content-center">
+  <ngb-pagination class="color-success" (pageChange)="onPageChange( $event )" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+</div>
 
 <!-- page: {{page}} -->

@@ -13,8 +13,8 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
 
   //TODO: css
+  //TODO: bottone refresh elimina la ricerca da local storage
   //TODO: (forse) aggiungiere titolo, autore e anno di rilascio sotto i poster
-
 
   title = 'compitoTps';
 
@@ -70,7 +70,10 @@ export class AppComponent {
       this.apiResponse = this.arrayToMatrix(tempData );
   }
 
-
+  refresh (){
+    window.localStorage.removeItem(this.movieDataGroup.value.movieTitle.toUpperCase() + "-" + this.page);
+    this.apiReq(true);
+  }
 
   saveInStorage( query: string, page: number, data: any ): void{
     localStorage.setItem( query.toUpperCase() + "-" + page, JSON.stringify(data));

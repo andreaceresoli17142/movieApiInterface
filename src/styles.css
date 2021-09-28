@@ -1,2 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+.custom-btns .btn-primary {
+    color: #fff;
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+.custom-btns .btn-primary:hover {
+    color: #fff;
+    background-color: #3e9941;
+    border-color: #3e9941;
+}
