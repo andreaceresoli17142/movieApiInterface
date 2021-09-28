@@ -5,7 +5,7 @@
     </button>
 </div>
 <div class="modal-body">
-    <img [src]="'https://image.tmdb.org/t/p/w300/' + fromParent.poster_path">
+    <img [src]="'https://image.tmdb.org/t/p/w300' + fromParent.poster_path"  onerror="this.src='../../assets/altImage.png'" > 
     <p>movie title: {{fromParent.title}}</p>
     <p>language: {{fromParent.original_language}}</p>
     <p>release date: {{fromParent.release_date}}</p>
@@ -13,7 +13,7 @@
     <p>vote average: {{fromParent.vote_average}}</p>    
     <p>vote count: {{fromParent.vote_count}}</p>
 </div>
-<div class="modal-footer">
+<!-- <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal('close')">Close</button>
-    <!-- <button type="button" class="btn btn-primary" (click)="closeModal('changes saved!')">Save changes</button> -->
-</div>
+    <button type="button" class="btn btn-primary" (click)="closeModal('changes saved!')">Save changes</button>
+</div> -->

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NgbModal, NgbTimepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OnApiResponseComponent } from './on-api-response/on-api-response.component';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,22 +9,21 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
-  //TODO: css 
-  //TODO: mettere qualcosa che descriva il film quando non c'e' l'immagine
-  //TODO: dare la possibilita' di vedere pure le altre pagine dell'api
+  //TODO: css
   //TODO: (forse) aggiungiere titolo, autore e anno di rilascio sotto i poster
 
-  //! BUG: se il programma non riceve un intera pagina non mette le locandine nella tabella
 
   title = 'compitoTps';
 
-  apiResponse: any = [];
+  page=1;
+  maxPage=0;
+
+  apiResponse: any = undefined;
 
   constructor(private modalService: NgbModal, private http: HttpClient) { }
-
-  // noTitleInsertedFlag = false;
 
   movieDataGroup = new FormGroup({
 
@@ -33,20 +32,84 @@ export class AppComponent {
   });
 
   onSubmit(): void {
-    // console.log(this.movieDataGroup.value.movieTitle);
 
-    const url = "https://api.themoviedb.org/3/search/movie?api_key=f8f299c7a98e07f7962dacfe6f8ee16f&language=en-US&query=" + this.movieDataGroup.value.movieTitle + "&page=1";; // Replace it with your own API path
+    this.page = 1;
+    this.apiReq( true );
+  }
+
+  apiReq( first = false, page = 1, bypassLocalStorage = false ): void{
+
+    if ( bypassLocalStorage == false ){
+
+      var localData = this.getFromStorage(  this.movieDataGroup.value.movieTitle, page );
+
+      if ( localData != null ){
+
+        console.log("from local storage");
+        this.processData( localData, first );
+        return;
+      }
+    }
+
+    const url = "https://api.themoviedb.org/3/search/movie?api_key=f8f299c7a98e07f7962dacfe6f8ee16f&language=en-US&query=" + this.movieDataGroup.value.movieTitle + "&page=" + page; // Replace it with your own API path
     this.http.get(url).subscribe(data => {
-      console.log(data);
-      let temp: any = data;
-      let tempData: any = temp.results;
+      console.log("from api");
 
+      this.saveInStorage( this.movieDataGroup.value.movieTitle , page, data );
 
-
-      this.apiResponse = this.arrayToMatrix(tempData );
-      // this.apiCallSuccess( data.total )  
+      this.processData( data, first );
     });
+  }
 
+  processData( data: any, first = false ):void  {
+    let temp: any = data;
+      let tempData: any = temp.results;
+      
+      if ( first )
+        this.maxPage = temp.total_pages;
+      this.apiResponse = this.arrayToMatrix(tempData );
+  }
+
+
+
+  saveInStorage( query: string, page: number, data: any ): void{
+    localStorage.setItem( query.toUpperCase() + "-" + page, JSON.stringify(data));
+  }
+
+  getFromStorage( query: string, page: number ): any{
+
+    var localData = localStorage.getItem(query.toUpperCase() + "-" + page);
+
+    if (localData == null)
+      return null;
+
+    return JSON.parse( localData );
+  }
+  
+  apiCallSuccess(data: any): void {
+    
+    this.movieDataGroup.patchValue({
+      movieTitle: ''
+    });
+  }
+  
+  openModal( movieData: any ): void {
+    const modalRef = this.modalService.open(OnApiResponseComponent,{
+      scrollable: true,
+      windowClass: 'myCustomModalClass',
+      // keyboard: false,
+      backdrop: 'static'
+    });
+    
+    modalRef.componentInstance.fromParent = movieData;
+    modalRef.result.then((result) => {
+    }, (reason) => {
+    });
+  }
+
+  onPageChange( page: number ): void {
+    // console.log("pagination element respondend: "+page);
+    this.apiReq( false, page );
   }
 
   arrayToMatrix( data: any ): any {
@@ -55,56 +118,19 @@ export class AppComponent {
     let tempArr: any = [];
 
     for (var i = 0; i < data.length; i++ ) {
- 
-      if ( i % 4 == 0 && i != 0  ){
+      
+      tempArr.push( data[i] );
+
+      if ( (i + 1) % 4 == 0 ||  i + 1 == data.length ){
         
         tempMatrix.push( tempArr );
         
         tempArr = [];
-        
       }
-      tempArr.push( data[i] );
     }
+
+    console.log(tempMatrix);
     return tempMatrix;
   }
-
-  apiCallSuccess(data: any) {
-    // this.openModal();
-
-    this.movieDataGroup.patchValue({
-      movieTitle: ''
-    });
-  }
-
-  openModal( movieData: any ) {
-    const modalRef = this.modalService.open(OnApiResponseComponent,
-      {
-        scrollable: true,
-        windowClass: 'myCustomModalClass',
-        // keyboard: false,
-        backdrop: 'static'
-      });
-
-    // let data = {
-    //   prop1: 'Some Data',
-    //   prop2: 'From Parent Component',
-    //   prop3: 'This Can be anything'
-    // }
-
-    modalRef.componentInstance.fromParent = movieData;
-    modalRef.result.then((result) => {
-      // console.log(result);
-    }, (reason) => {
-    });
-  }
-
-
-  // stuff
-  // 
-
-  // ngOnInit() {
-
-  //   console.log("working");   
-  // }
 
 }
