@@ -14,7 +14,7 @@
   <tbody>
     <tr *ngFor="let movieRow of apiResponse">
       <td *ngFor="let singleMovie of movieRow" scope="row"> 
-        <img [src]="'https://image.tmdb.org/t/p/w185/' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
+        <img [src]="'https://image.tmdb.org/t/p/w185' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
       </td>
     </tr>
   </tbody>
@@ -22,6 +22,6 @@
 
 <div *ngIf="apiResponse !== undefined && apiResponse.length == 0"> no movies found </div>
 
-<ngb-pagination (pageChange)="apiReq()" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+<ngb-pagination (pageChange)="onPageChange( $event )" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 
-page: {{page}}
+<!-- page: {{page}} -->
