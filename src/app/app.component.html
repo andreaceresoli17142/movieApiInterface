@@ -1,27 +1,28 @@
-<form [formGroup]="movieDataGroup" (ngSubmit)="onSubmit()">
-  <label for="movieTitle">Title: </label>
-  <input id="movieTitle" type="text" formControlName="movieTitle">
-  <!-- <div class="alert alert-danger" role="alert" *ngIf="noTitleInsertedFlag == true "> errore</div> -->
-  <!-- <div>
-    value:{{movieDataGroup.movieTitle.value}}
-    </div> -->
+<h1 class="display-3 text-center text-success pt-4">TMDB API INTERFACE</h1>
 
-  <button [disabled]="this.movieDataGroup.value.movieTitle == ''" type="submit">submit</button>
-
+<form  class="mx-auto pt-4 pb-4" style="width: 400px;" [formGroup]="movieDataGroup" (ngSubmit)="onSubmit()">  
+  <div class="input-group mb-3">
+    <input type="text" class="form-control form-control-lg" placeholder="search for your movie"  id="movieTitle" formControlName="movieTitle">
+    <button type="submit" class="input-group-text btn-success" [disabled]="this.movieDataGroup.value.movieTitle == ''"><i class="bi bi-search me-2"></i> Search</button>
+    <button *ngIf="apiResponse !== undefined  && apiResponse.length != 0" class="input-group-text btn-success bi bi-search me-2" (click)="this.refresh()"  [disabled]="this.movieDataGroup.value.movieTitle == ''" >refresh</button>
+  </div>
 </form>
 
-<table class="table">
+
+<table class="table table-dark">
   <tbody>
     <tr *ngFor="let movieRow of apiResponse">
-      <td *ngFor="let singleMovie of movieRow" scope="row"> 
-        <img [src]="'https://image.tmdb.org/t/p/w185' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
+      <td *ngFor="let singleMovie of movieRow" class="text-center" scope="row"> 
+        <img class="rounded-lg mx-auto d-block" [src]="'https://image.tmdb.org/t/p/w185' + singleMovie.poster_path" onerror="this.src='../assets/altImage.png'" alt="poster not found" (click)="this.openModal(singleMovie)" > 
+        <br>
+        {{singleMovie.title}} - ({{singleMovie.release_date[0]}}{{singleMovie.release_date[1]}}{{singleMovie.release_date[2]}}{{singleMovie.release_date[3]}})
       </td>
     </tr>
   </tbody>
 </table>
 
-<div *ngIf="apiResponse !== undefined && apiResponse.length == 0"> no movies found </div>
+<app-movie-not-found *ngIf="apiResponse !== undefined && apiResponse.length == 0"></app-movie-not-found>
 
-<ngb-pagination (pageChange)="onPageChange( $event )" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
-
-<!-- page: {{page}} -->
+<div class="d-flex justify-content-center pt-4">
+  <ngb-pagination class="color-success" (pageChange)="onPageChange( $event )" *ngIf="maxPage > 1" [collectionSize]="maxPage*10" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+</div>
