@@ -9,11 +9,13 @@ import { OnApiResponseComponent } from './on-api-response/on-api-response.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { MovieNotFoundComponent } from './movie-not-found/movie-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OnApiResponseComponent,
+    MovieNotFoundComponent,
   ],
   entryComponents:[
     OnApiResponseComponent

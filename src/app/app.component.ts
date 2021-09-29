@@ -44,8 +44,7 @@ export class AppComponent {
       var localData = this.getFromStorage(  this.movieDataGroup.value.movieTitle, page );
 
       if ( localData != null ){
-
-        console.log("from local storage");
+        //console.log("from local storage");
         this.processData( localData, first );
         return;
       }
@@ -53,7 +52,7 @@ export class AppComponent {
 
     const url = "https://api.themoviedb.org/3/search/movie?api_key=f8f299c7a98e07f7962dacfe6f8ee16f&language=en-US&query=" + this.movieDataGroup.value.movieTitle + "&page=" + page; // Replace it with your own API path
     this.http.get(url).subscribe(data => {
-      console.log("from api");
+      //console.log("from api");
 
       this.saveInStorage( this.movieDataGroup.value.movieTitle , page, data );
 
